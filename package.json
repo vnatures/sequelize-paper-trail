@@ -1,6 +1,6 @@
 {
 	"name": "@versatile-ai/sequelize-paper-trail",
-	"version": "3.0.2",
+	"version": "3.0.3",
 	"description": "Track changes to your Sequelize models data. Perfect for auditing or versioning.",
 	"author": {
 		"name": "Niels van Galen Last",
