@@ -1,6 +1,6 @@
 {
 	"name": "@versatile-ai/sequelize-paper-trail",
-	"version": "3.0.4",
+	"version": "3.0.5",
 	"description": "Track changes to your Sequelize models data. Perfect for auditing or versioning.",
 	"author": {
 		"name": "Niels van Galen Last",
@@ -40,7 +40,7 @@
 		"build": "babel lib/ --out-dir dist/",
 		"lint": "eslint --ext .js lib test",
 		"lint:fix": "npm run lint -- --fix",
-		"release": "release-it",
+		"release": "npm publish --access restricted",
 		"test": "jest"
 	},
 	"devDependencies": {

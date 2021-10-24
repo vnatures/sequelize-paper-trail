@@ -155,6 +155,27 @@ instance.update({ noPaperTrail: true }).then(() {
 });
 ```
 
+## Add associations 
+
+In order to add associations, you need to:
+* eagerly load them first on the model that is being updated.
+* add the `associations` options:
+
+### Association options
+
+| Option                      | Type    | Default Value      | Description |
+|-----------------------------|---------|--------------------|-------------|
+|model						  |Model	|					 | The model to add associations to | 
+|fieldName					  |String	|					 | The field in the model containing the association |
+|displayName				  |String	| value of fieldName | The name that will appear in the revision. defaults to fieldName |
+|mapper						  |Function | x => x			 | a function to map the values |
+Example:
+```javascript
+associations: [
+  { model: MasterWidget, fieldName: 'widgetSiteRestrictions', displayName: 'restrictedToSites', mapper: x => x.siteId }
+]
+```
+
 ## Options
 
 Paper Trail supports various options that can be passed into the initialization. The following are the default options:
@@ -218,7 +239,7 @@ const options = {
 | [belongsToUserOptions]      | Object  | undefined                                                                                                            | The options used for belongsTo between userModel and Revision model                                                                                                                                                    |
 | [metaDataFields]            | Object  | undefined                                                                                                            | The keys that will be provided in the meta data object. { key: isRequired (boolean)} format. Can be used to privovide additional fields - other associations, dates, etc to the Revision model                         |
 | [metaDataContinuationKey]   | String  | 'metaData'                                                                                                           | The continuation-local-storage key that contains the meta data object, from where the metaDataFields are extracted.                                                                                                    |
-
+| [associations]			  | Array   | 																													   | The associations that will be added to the paper trail.
 ## Limitations
 
 * This project does not support models with composite primary keys. You can work around using a unique index with multiple fields.
