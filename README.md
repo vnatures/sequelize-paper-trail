@@ -168,12 +168,15 @@ In order to add associations, you need to:
 |-----------------------------|---------|--------------------|-------------|
 |fieldName					  |String	|					 | The field in the model containing the association |
 |displayName				  |String	| value of fieldName | The name that will appear in the revision. defaults to fieldName |
-|mapper						  |Function | x => x			 | a function to map the values |
+|mapper						  |Function | all fields except omitted: <br>`x => _.omit(x, options.exclude)`		 | a function to map the values |
 Example:
 ```javascript
-paperTrailAssociations = [
-	{ fieldName: 'widgetSiteRestrictions', displayName: 'restrictedToSites', mapper: x => x.siteId }
-]
+class MasterWidgetBase extends Auditable<MasterWidgetBase> {
+  static paperTrailAssociations = [
+    { fieldName: 'widgetSiteRestrictions', displayName: 'restrictedToSites', mapper: x => x.siteId }
+  ]
+  ...
+}
 ```
 
 ## Options
