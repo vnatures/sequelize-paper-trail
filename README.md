@@ -155,6 +155,30 @@ instance.update({ noPaperTrail: true }).then(() {
 });
 ```
 
+## Add associations 
+
+In order to add associations, you need to:
+* eagerly load them first on the model that is being updated,
+* save the associations first, make sure the main model is updated, and then save it.
+* add the `paperTrailAssociations` options:
+
+### Association options
+
+| Option                      | Type    | Default Value      | Description |
+|-----------------------------|---------|--------------------|-------------|
+|fieldName					  |String	|					 | The field in the model containing the association |
+|displayName				  |String	| value of fieldName | The name that will appear in the revision. defaults to fieldName |
+|mapper						  |Function | all fields except omitted: <br>`x => _.omit(x, options.exclude)`		 | a function to map the values |
+Example:
+```javascript
+class MasterWidgetBase extends Auditable<MasterWidgetBase> {
+  static paperTrailAssociations = [
+    { fieldName: 'widgetSiteRestrictions', displayName: 'restrictedToSites', mapper: x => x.siteId }
+  ]
+  ...
+}
+```
+
 ## Options
 
 Paper Trail supports various options that can be passed into the initialization. The following are the default options:
@@ -218,7 +242,6 @@ const options = {
 | [belongsToUserOptions]      | Object  | undefined                                                                                                            | The options used for belongsTo between userModel and Revision model                                                                                                                                                    |
 | [metaDataFields]            | Object  | undefined                                                                                                            | The keys that will be provided in the meta data object. { key: isRequired (boolean)} format. Can be used to privovide additional fields - other associations, dates, etc to the Revision model                         |
 | [metaDataContinuationKey]   | String  | 'metaData'                                                                                                           | The continuation-local-storage key that contains the meta data object, from where the metaDataFields are extracted.                                                                                                    |
-
 ## Limitations
 
 * This project does not support models with composite primary keys. You can work around using a unique index with multiple fields.
