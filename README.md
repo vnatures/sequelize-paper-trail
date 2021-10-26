@@ -159,7 +159,7 @@ instance.update({ noPaperTrail: true }).then(() {
 
 In order to add associations, you need to:
 * eagerly load them first on the model that is being updated,
-* save the associations first, make sure the main omdel is updated, and then save it.
+* save the associations first, make sure the main model is updated, and then save it.
 * add the `paperTrailAssociations` options:
 
 ### Association options
