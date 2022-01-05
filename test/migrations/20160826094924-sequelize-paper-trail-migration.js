@@ -43,6 +43,10 @@ module.exports = {
 				type: Sequelize.TEXT,
 				allowNull: false,
 			},
+			previous: {
+				type: Sequelize.JSONB,
+				allowNull: true,
+			},
 			user_id: {
 				type: Sequelize.INTEGER,
 				allowNull: true,
