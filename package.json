@@ -75,7 +75,7 @@
 		"cls-hooked": "^4.2.2",
 		"deep-diff": "^1.0.2",
 		"diff": "^4.0.1",
-		"lodash": "^4.17.15"
+		"lodash": "^4.17.21"
 	},
 	"babel": {
 		"presets": [
