@@ -69,7 +69,7 @@
 		"pretty-error": "^2.1.1",
 		"release-it": "^12.3.5",
 		"sequelize": "^6.33.0",
-		"sqlite3": "^4.0.9"
+		"sqlite3": "^5.1.6"
 	},
 	"dependencies": {
 		"cls-hooked": "^4.2.2",

@@ -5,85 +5,85 @@ orbs:
 defaults: &defaults
   working_directory: ~/repo
 jobs:
-    build:
-        machine:
-            image: ubuntu-2204:2023.07.2
-            docker_layer_caching: true
-            <<: *defaults
-        environment:
-            GIT_BRANCH: << pipeline.git.branch >>
-        steps:
-          - run: echo $GIT_BRANCH
-          - checkout
-          - run:
-              name: Authenticate with registry
-              command: echo "registry=https://registry.npmjs.org" > ~/.npmrc;
-                echo "@vnatures:registry=https://npm.pkg.github.com/" >> ~/.npmrc;
-                echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> ~/.npmrc
-          - node/install-packages
-          - run:
-              name: node_version
-              command: node --version
-          - run:
-              name: npm_version
-              command: npm --version
-          - run:
-              name: build
-              command: npm run build
-          - run: env
-          - persist_to_workspace:
-              root: ~/repo
-              paths: [ . ]
-          - store_artifacts:
-              path: ~/.npm/_logs/
-          - store_artifacts:
-              path: reports
-    publish-package:
-          <<: *defaults
-          environment:
-            GIT_BRANCH: << pipeline.git.branch >>
-          machine:
-            image: ubuntu-2204:2023.07.2
-            docker_layer_caching: true
-          steps:
-            - attach_workspace:
-                at: ~/repo
-            - run: node --version
-            - run: npm --version
-            - run:
-                name: Authenticate with registry
-                command: echo "registry=https://npm.pkg.github.com/" > ~/.npmrc;
-                  echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> ~/.npmrc
-            - run:
-                name: publish package
-                command: |
-                  if [[ $GIT_BRANCH =~ ^(main|master)$ ]]
-                  then
-                  echo "publish production version"
-                  npm publish
-                  else
-                  echo "publish beta version"
-                  npm publish --tag beta
-                  fi
+  build:
+    machine:
+      image: ubuntu-2204:2023.07.2
+      docker_layer_caching: true
+    <<: *defaults
+    environment:
+      GIT_BRANCH: << pipeline.git.branch >>
+    steps:
+      - run: echo $GIT_BRANCH
+      - checkout
+      - run:
+          name: Authenticate with registry
+          command: echo "registry=https://registry.npmjs.org" > ~/.npmrc;
+            echo "@vnatures:registry=https://npm.pkg.github.com/" >> ~/.npmrc;
+            echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> ~/.npmrc
+      - node/install-packages
+      - run:
+          name: node_version
+          command: node --version
+      - run:
+          name: npm_version
+          command: npm --version
+      - run:
+          name: build
+          command: npm run build
+      - run: env
+      - persist_to_workspace:
+          root: ~/repo
+          paths: [.]
+      - store_artifacts:
+          path: ~/.npm/_logs/
+      - store_artifacts:
+          path: reports
+  publish-package:
+    <<: *defaults
+    environment:
+      GIT_BRANCH: << pipeline.git.branch >>
+    machine:
+      image: ubuntu-2204:2023.07.2
+      docker_layer_caching: true
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run: node --version
+      - run: npm --version
+      - run:
+          name: Authenticate with registry
+          command: echo "registry=https://npm.pkg.github.com/" > ~/.npmrc;
+            echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> ~/.npmrc
+      - run:
+          name: publish package
+          command: |
+            if [[ $GIT_BRANCH =~ ^(main|master)$ ]]
+            then
+            echo "publish production version"
+            npm publish
+            else
+            echo "publish beta version"
+            npm publish --tag beta
+            fi
 
-            - store_artifacts:
-                path: ~/.npm/_logs/
+      - store_artifacts:
+          path: ~/.npm/_logs/
 workflows:
-      sample:
-          jobs:
-            - build:
-                context: base-context
-                filters:
-                  tags:
-                    only: /.*/
-            - publish-package:
-                context: base-context
-                requires:
-                  - build
-                filters:
-                  tags:
-                    ignore: /^v\d+\.\d+\.\d+$/
-                  branches:
-                    only:
-                      - main
-                      - master
+  sample:
+    jobs:
+      - build:
+          context: base-context
+          filters:
+            tags:
+              only: /.*/
+      - publish-package:
+          context: base-context
+          requires:
+            - build
+          filters:
+            tags:
+              ignore: /^v\d+\.\d+\.\d+$/
+            branches:
+              only:
+                - main
+                - master
