@@ -1,6 +1,6 @@
 {
-	"name": "@versatile-ai/sequelize-paper-trail",
-	"version": "3.0.7",
+	"name": "@vnatures/sequelize-paper-trail",
+	"version": "4.0.0",
 	"description": "Track changes to your Sequelize models data. Perfect for auditing or versioning.",
 	"author": {
 		"name": "Niels van Galen Last",
@@ -68,14 +68,14 @@
 		"prettier": "^1.18.2",
 		"pretty-error": "^2.1.1",
 		"release-it": "^12.3.5",
-		"sequelize": "^5.14.0",
-		"sqlite3": "^4.0.9"
+		"sequelize": "^6.33.0",
+		"sqlite3": "^5.1.6"
 	},
 	"dependencies": {
 		"cls-hooked": "^4.2.2",
 		"deep-diff": "^1.0.2",
 		"diff": "^4.0.1",
-		"lodash": "^4.17.15"
+		"lodash": "^4.17.21"
 	},
 	"babel": {
 		"presets": [
